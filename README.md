@@ -1,6 +1,6 @@
-# HelaDrive - An AI powered advance driver drowsiness detection system
+# Driverdroid - An AI powered advance driver drowsiness detection system
 
-HelaDrive is an advanced driver drowsiness detection system with AI powered core.
+Driverdroid is an advanced driver drowsiness detection system with AI powered core.
 
 
 Designed and Developed by HelaDevs
