@@ -1,116 +1,114 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ * @flow strict-local
+ */
+
+import React from 'react';
 import {
+  SafeAreaView,
   StyleSheet,
-  Text,
+  ScrollView,
   View,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+  Text,
+  StatusBar,
+} from 'react-native';
 
-export default function App() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+import {
+  Header,
+  LearnMoreLinks,
+  Colors,
+  DebugInstructions,
+  ReloadInstructions,
+} from 'react-native/Libraries/NewAppScreen';
 
+const App: () => React$Node = () => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Sign in</Text>
-
-      <StatusBar style="auto" />
-
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Username"
-          placeholderTextColor="#666666"
-          onChangeText={(username) => setUsername(username)}
-        />
-      </View>
-
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Password"
-          placeholderTextColor="#666666"
-          secureTextEntry={true}
-          onChangeText={(password) => setPassword(password)}
-        />
-      </View>
-
-      <TouchableOpacity>
-        <Text style={styles.forgot_password}>Forgot Password?</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity>
-        <Text style={styles.sign_up}>New user? Sign up</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.sign_in}>
-        <Text style={styles.sign_in_text}>Sign in</Text>
-      </TouchableOpacity>
-    </View>
+    <>
+      <StatusBar barStyle="dark-content" />
+      <SafeAreaView>
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          style={styles.scrollView}>
+          <Header />
+          {global.HermesInternal == null ? null : (
+            <View style={styles.engine}>
+              <Text style={styles.footer}>Engine: Hermes</Text>
+            </View>
+          )}
+          <View style={styles.body}>
+            <View style={styles.sectionContainer}>
+              <Text style={styles.sectionTitle}>Step One</Text>
+              <Text style={styles.sectionDescription}>
+                Edit <Text style={styles.highlight}>App.js</Text> to change this
+                screen and then come back to see your edits.
+              </Text>
+            </View>
+            <View style={styles.sectionContainer}>
+              <Text style={styles.sectionTitle}>See Me</Text>
+              <Text style={styles.sectionDescription}>
+                <ReloadInstructions />
+              </Text>
+            </View>
+            <View style={styles.sectionContainer}>
+              <Text style={styles.sectionTitle}>Debug</Text>
+              <Text style={styles.sectionDescription}>
+                <DebugInstructions />
+              </Text>
+            </View>
+            <View style={styles.sectionContainer}>
+              <Text style={styles.sectionTitle}>Learn More</Text>
+              <Text style={styles.sectionDescription}>
+                Read the docs to discover what to do next:
+              </Text>
+            </View>
+            <LearnMoreLinks />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F8F8FF",
-    alignItems: "center",
-    justifyContent: "center",
+  scrollView: {
+    backgroundColor: Colors.lighter,
   },
-
-  title: {
-    height: 100,
-    paddingBottom: 10,
-    fontSize: 42,
-    fontWeight: "bold",
-    color: "#59499E",
+  engine: {
+    position: 'absolute',
+    right: 0,
   },
-
-  inputView: {
-    backgroundColor: "#EEEEF8",
-    borderRadius: 6,
-    width: "80%",
-    height: 45,
-    marginBottom: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
+  body: {
+    backgroundColor: Colors.white,
   },
-
-  TextInput: {
-    height: 50,
-    flex: 1,
-    padding: 10,
-    fontSize: 14,
+  sectionContainer: {
+    marginTop: 32,
+    paddingHorizontal: 24,
   },
-
-  forgot_password: {
-    height: 30,
-    marginBottom: 10,
-    fontSize: 15,
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: '600',
+    color: Colors.black,
   },
-
-  sign_up: {
-    height: 30,
-    marginBottom: 10,
-    fontSize: 15,
+  sectionDescription: {
+    marginTop: 8,
+    fontSize: 18,
+    fontWeight: '400',
+    color: Colors.dark,
   },
-
-  sign_in: {
-    width: "80%",
-    borderRadius: 8,
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 40,
-    backgroundColor: "#35BEE0",
+  highlight: {
+    fontWeight: '700',
   },
-
-  sign_in_text: {
-    color: "white",
-    fontSize: 20,
-    fontWeight: "bold",
-    fontFamily: "Open Sans",
+  footer: {
+    color: Colors.dark,
+    fontSize: 12,
+    fontWeight: '600',
+    padding: 4,
+    paddingRight: 12,
+    textAlign: 'right',
   },
 });
+
+export default App;
