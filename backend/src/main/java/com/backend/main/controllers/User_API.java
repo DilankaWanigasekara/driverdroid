@@ -1,13 +1,17 @@
 package com.backend.main.controllers;
 
 import com.backend.main.config.factory.UserFactory;
+import com.backend.main.models.ResponseModel;
+import com.backend.main.models.Statistics;
 import com.backend.main.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 public class User_API {
@@ -16,23 +20,17 @@ public class User_API {
     private UserFactory userFactory;
 
     @GetMapping(value = "/api/test")
-    public String test(){
-        return "Backend works";
+    public ResponseEntity<?> test(){
+        return ResponseEntity.ok(new ResponseModel("Backend Works!!!", HttpStatus.ACCEPTED));
     }
 
-    @PostMapping(value = "/api/user/verify")
-    public ResponseEntity<?> verifyUser(@RequestBody String otp){
-        return null;
+    @GetMapping(value="/api/get-statistics")
+    public ResponseEntity<?> userStatistics(@RequestParam("id") String id){
+        return ResponseEntity.ok(userFactory.getStat(id));
     }
-
-    @GetMapping(value = "/api/user/me")
-    public ResponseEntity<?> getCurrentUser(@RequestAttribute String id){
-        return null;
-    }
-
-    @GetMapping(value = "/api/user/stats")
-    public ResponseEntity<?> getStats(@RequestAttribute String id){
-        return null;
+    @GetMapping(value="/api/device-id")
+    public ResponseEntity<?> deviceId(@RequestParam("id") String deviceid){
+        return ResponseEntity.ok(userFactory.getDeviceId(deviceid));
     }
 
     @RequestMapping(value = "/me", method = RequestMethod.GET)
@@ -41,4 +39,6 @@ public class User_API {
         Principal principal = request.getUserPrincipal();
         return ResponseEntity.ok(userFactory.getUser(principal.getName()));
     }
+
+
 }

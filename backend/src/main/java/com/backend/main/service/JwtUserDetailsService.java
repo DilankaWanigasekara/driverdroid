@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.backend.main.config.SMSConfig;
+import com.backend.main.models.ResponseModel;
 import com.backend.main.models.User;
 import com.backend.main.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +39,11 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     public ResponseEntity<?> save(User user) {
         if(userRepo.findByUsername(user.getUsername())!=null){
-            return new ResponseEntity("User already Exist", HttpStatus.PRECONDITION_FAILED );
+            return new ResponseEntity(new ResponseModel("User already Exist", HttpStatus.PRECONDITION_FAILED), HttpStatus.PRECONDITION_FAILED );
         }
 
         if(userRepo.findByContact(user.getContact())!=null){
-            return new ResponseEntity("Phone number already Exist", HttpStatus.PRECONDITION_FAILED );
+            return new ResponseEntity(new ResponseModel("Phone number already Exist", HttpStatus.PRECONDITION_FAILED), HttpStatus.PRECONDITION_FAILED );
         }
 
 
@@ -61,11 +62,15 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     public ResponseEntity<?> verify(String otp, String username){
         User user = userRepo.findByUsername(username);
+        if (user==null){
+            return new ResponseEntity(new ResponseModel("Username is incorrect", HttpStatus.PRECONDITION_FAILED), HttpStatus.PRECONDITION_FAILED);
+        }
         if (user.getOtp().equals(otp)){
             user.setValid(true);
             return ResponseEntity.ok(userRepo.save(user));
         }else{
-            return new ResponseEntity("Invalid OTP entered!", HttpStatus.PRECONDITION_FAILED);
+            return new ResponseEntity(new ResponseModel("Invalid OTP Entered", HttpStatus.PRECONDITION_FAILED), HttpStatus.PRECONDITION_FAILED);
+
         }
 
     }
