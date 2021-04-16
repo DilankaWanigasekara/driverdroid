@@ -4,6 +4,7 @@ package com.backend.main.controllers;
 import com.backend.main.config.JwtTokenUtil;
 import com.backend.main.models.JwtRequest;
 import com.backend.main.models.JwtResponse;
+import com.backend.main.models.ResponseModel;
 import com.backend.main.models.User;
 import com.backend.main.repository.UserRepo;
 import com.backend.main.service.JwtUserDetailsService;
@@ -48,7 +49,7 @@ public class JwtAuthenticationController {
         final String token = jwtTokenUtil.generateToken(userDetails);
 
         if (!userRepo.findByUsername(userDetails.getUsername()).getValid()){
-            return new ResponseEntity("User is not verified", HttpStatus.PRECONDITION_FAILED );
+            return new ResponseEntity(new ResponseModel("User is not verified", HttpStatus.PRECONDITION_FAILED ), HttpStatus.PRECONDITION_FAILED );
         }
 
         return ResponseEntity.ok(new JwtResponse(token));
