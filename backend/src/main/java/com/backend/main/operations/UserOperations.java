@@ -1,9 +1,11 @@
 package com.backend.main.operations;
 
+import com.backend.main.models.ContactForm;
 import com.backend.main.models.Device;
 import com.backend.main.models.Statistics;
 import com.backend.main.models.User;
 import com.backend.main.repository.DeviceRepo;
+import com.backend.main.repository.FormRepo;
 import com.backend.main.repository.StatisticRepo;
 import com.backend.main.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class UserOperations {
     private StatisticRepo statisticsRepo;
     @Autowired
     private DeviceRepo deviceRepo;
+    @Autowired
+    private FormRepo formRepo;
+
     public User getUser(String username){
         return userRepo.findByUsername(username);
     }
@@ -30,5 +35,8 @@ public class UserOperations {
     }
     public Optional<Device> getId(String deviceId){
         return deviceRepo.findById(deviceId);
+    }
+    public void addMessage(ContactForm message){
+        formRepo.save(message);
     }
 }
