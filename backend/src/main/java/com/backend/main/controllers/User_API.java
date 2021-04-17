@@ -21,7 +21,7 @@ public class User_API {
     private UserFactory userFactory;
 
     @GetMapping(value = "/")
-    public ResponseEntity<?> test(){
+    public ResponseEntity<?> test01(){
         return ResponseEntity.ok(new ResponseModel("Backend Works!!!", HttpStatus.ACCEPTED));
     }
 
