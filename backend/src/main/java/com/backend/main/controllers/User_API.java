@@ -1,6 +1,7 @@
 package com.backend.main.controllers;
 
 import com.backend.main.config.factory.UserFactory;
+import com.backend.main.models.ContactForm;
 import com.backend.main.models.ResponseModel;
 import com.backend.main.models.Statistics;
 import com.backend.main.models.User;
@@ -32,7 +33,10 @@ public class User_API {
     public ResponseEntity<?> deviceId(@RequestParam("id") String deviceid){
         return ResponseEntity.ok(userFactory.getDeviceId(deviceid));
     }
-
+    @PostMapping("/api/contact")
+    public void  contact(@RequestBody ContactForm contactForm){
+        userFactory.addMessage(contactForm);
+    }
     @RequestMapping(value = "/me", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> currentUserNameSimple(HttpServletRequest request) {

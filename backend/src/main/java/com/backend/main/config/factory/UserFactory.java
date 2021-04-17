@@ -1,5 +1,6 @@
 package com.backend.main.config.factory;
 
+import com.backend.main.models.ContactForm;
 import com.backend.main.models.Device;
 import com.backend.main.models.Statistics;
 import com.backend.main.models.User;
@@ -24,5 +25,8 @@ public class UserFactory {
     }
     public Optional<Device> getDeviceId(String id){
         return userOperations.getId(id);
+    }
+    public void addMessage(ContactForm contactForm){
+        userOperations.addMessage(contactForm);
     }
 }
