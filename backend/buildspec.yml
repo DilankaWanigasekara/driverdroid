@@ -6,7 +6,7 @@ phases:
       java: corretto8
     build:
       - ./mvn clean install
-    post_buid:
+    post_build:
       commands:
         - echo Build Completed
 artifacts:
