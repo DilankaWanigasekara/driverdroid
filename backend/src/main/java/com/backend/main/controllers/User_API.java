@@ -20,6 +20,11 @@ public class User_API {
     @Autowired
     private UserFactory userFactory;
 
+    @GetMapping(value = "/")
+    public ResponseEntity<?> test(){
+        return ResponseEntity.ok(new ResponseModel("Backend Works!!!", HttpStatus.ACCEPTED));
+    }
+
     @GetMapping(value = "/api/test")
     public ResponseEntity<?> test(){
         return ResponseEntity.ok(new ResponseModel("Backend Works!!!", HttpStatus.ACCEPTED));
