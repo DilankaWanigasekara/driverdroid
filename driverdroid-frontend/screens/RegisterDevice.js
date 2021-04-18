@@ -9,17 +9,15 @@ import {
   Image,
 } from 'react-native';
 
-const Register = ({ navigation }) => {
+const Register = ({ route, navigation }) => {
   const [verifyCode, setVerifyCode] = useState('');
   const verifyCodeInput = React.useRef();
   const [errors, setErrors] = useState({});
 
   const handleRegisterDevice = (event) => {
     event.preventDefault();
-
     if (validate()) {
-      verifyCodeInput.current.clear();
-      navigation.navigate('Home');
+      registerDevice(verifyCode);
     }
   }
 
@@ -43,13 +41,45 @@ const Register = ({ navigation }) => {
     return isValid;
   }
 
+  function registerDevice(verifyCode) {
+    const url = 'http://142.93.254.255:8080/verify';
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: route.params.username.username,
+        otp: verifyCode
+      })
+    })
+      .then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+      })
+      .then(([status, Jsonresponse]) => {
+        if (status != 200) {
+          alert(Jsonresponse.message);
+        } else {
+          verifyCodeInput.current.clear();
+          navigation.navigate('Sign In');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        alert('An error occurred!')
+      });
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar style='auto' />
 
       <Image style={styles.logo} source={require('../assets/images/logo.jpeg')} />
 
-      <Text style={styles.text}>Please enter the verification code{'\n'}we had sent to your device</Text>
+      <Text style={styles.text}>Please enter the verification code{'\n'}we had sent to your registered phone number</Text>
 
       <View style={styles.inputView}>
         <TextInput
