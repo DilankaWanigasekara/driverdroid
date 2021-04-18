@@ -2,10 +2,7 @@ package com.backend.main.controllers;
 
 
 import com.backend.main.config.JwtTokenUtil;
-import com.backend.main.models.JwtRequest;
-import com.backend.main.models.JwtResponse;
-import com.backend.main.models.ResponseModel;
-import com.backend.main.models.User;
+import com.backend.main.models.*;
 import com.backend.main.repository.UserRepo;
 import com.backend.main.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +13,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -74,5 +67,16 @@ public class JwtAuthenticationController {
     public ResponseEntity<?> verifyUser(@RequestBody User user) throws Exception {
         return userDetailsService.verify(user.getOtp(), user.getUsername());
     }
+
+    @PostMapping("/forget-password")
+    public ResponseEntity<?> forget (@RequestBody User user){
+        return userDetailsService.forget(user.getUsername());
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> reset (@RequestBody ResetPasswordModel model){
+        return userDetailsService.resetpassword(model);
+    }
+
 
 }

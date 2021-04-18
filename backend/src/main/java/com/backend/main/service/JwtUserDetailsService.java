@@ -1,10 +1,15 @@
 package com.backend.main.service;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.backend.main.config.SMSConfig;
 import com.backend.main.models.Device;
+import com.backend.main.models.ResetPasswordModel;
 import com.backend.main.models.ResponseModel;
 import com.backend.main.models.User;
 import com.backend.main.repository.DeviceRepo;
@@ -45,12 +50,6 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     public ResponseEntity<?> save(User user) {
 
-        Device device = deviceRepo.findById(user.getDevice().getDeviceId()).get();
-
-        if(device.getUser()!=null || device==null){
-            return new ResponseEntity(new ResponseModel("Device not available", HttpStatus.PRECONDITION_FAILED), HttpStatus.PRECONDITION_FAILED );
-        }
-
         if(userRepo.findByUsername(user.getUsername())!=null){
             return new ResponseEntity(new ResponseModel("User already Exist", HttpStatus.PRECONDITION_FAILED), HttpStatus.PRECONDITION_FAILED );
         }
@@ -69,11 +68,9 @@ public class JwtUserDetailsService implements UserDetailsService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        user = userRepo.save(user);
-        
-        device.setUser(user);
-        deviceRepo.save(device);
-        return ResponseEntity.ok(user);
+
+        return ResponseEntity.ok(userRepo.save(user));
+
     }
 
     public ResponseEntity<?> verify(String otp, String username){
@@ -88,6 +85,37 @@ public class JwtUserDetailsService implements UserDetailsService {
             return new ResponseEntity(new ResponseModel("Invalid OTP Entered", HttpStatus.PRECONDITION_FAILED), HttpStatus.PRECONDITION_FAILED);
 
         }
+    }
 
+    public ResponseEntity<?> forget(String userName){
+        byte[] array = new byte[7]; // length is bounded by 7
+        new Random().nextBytes(array);
+//        String generatedPwd = new String(array, Charset.forName("UTF-8"));
+        String code = RandomNumGeneratorService.generateID(6);
+        String generatedPwd = "TEMPO" + code;
+
+        if (userRepo.existsByUsername(userName)){
+            User user = userRepo.findByUsername(userName);
+            user.setPassword(bcryptEncoder.encode(generatedPwd));
+            userRepo.save(user);
+            try {
+                SMSConfig smsConfig = new SMSConfig(user.getContact(), generatedPwd);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return new ResponseEntity(new ResponseModel("Temporary password send", HttpStatus.OK), HttpStatus.OK);
+        }
+        return new ResponseEntity(new ResponseModel("Invalid username", HttpStatus.PRECONDITION_FAILED), HttpStatus.PRECONDITION_FAILED);
+    }
+
+    public ResponseEntity<?> resetpassword(ResetPasswordModel model){
+        User user = userRepo.findByUsername(model.getUsername());
+        String temp = bcryptEncoder.encode(model.getTemp_pwd());
+        if (user.getPassword().equals(temp)){
+            user.setPassword(bcryptEncoder.encode(model.getPwd()));
+            return ResponseEntity.ok(userRepo.save(user));
+        }else {
+            return new ResponseEntity(new ResponseModel("Invalid temperory password", HttpStatus.PRECONDITION_FAILED), HttpStatus.PRECONDITION_FAILED);
+        }
     }
 }

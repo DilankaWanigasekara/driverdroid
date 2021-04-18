@@ -49,5 +49,10 @@ public class User_API {
         return ResponseEntity.ok(userFactory.getUser(principal.getName()));
     }
 
+    @PostMapping("/api/assign-device")
+    public ResponseEntity<?> assignDevice(@RequestParam("userId") long userId,
+                             @RequestParam("deviceId") String deviceId){
+        return userFactory.assignDevice(userId, deviceId);
+    }
 
 }
