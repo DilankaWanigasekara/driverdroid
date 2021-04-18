@@ -69,9 +69,11 @@ public class JwtUserDetailsService implements UserDetailsService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+        user = userRepo.save(user);
         device.setUser(user);
         deviceRepo.save(device);
-        return ResponseEntity.ok(userRepo.save(user));
+        return ResponseEntity.ok(user);
     }
 
     public ResponseEntity<?> verify(String otp, String username){
