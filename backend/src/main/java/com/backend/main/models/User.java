@@ -36,6 +36,9 @@ public class User {
     @Column
     private String otp;
 
+    @OneToOne
+    private Device device;
+
     public long getId() {
         return id;
     }
@@ -106,6 +109,14 @@ public class User {
 
     public void setOtp(String otp) {
         this.otp = otp;
+    }
+
+    public Device getDevice() {
+        return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
     }
 
     @Override

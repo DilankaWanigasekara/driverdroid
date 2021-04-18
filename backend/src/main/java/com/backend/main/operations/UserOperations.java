@@ -30,12 +30,14 @@ public class UserOperations {
         return userRepo.findByUsername(username);
     }
 
-    public List<Statistics> getStatistics(String id){
-        return statisticsRepo.findAllByUserId(id);
+    public List<Statistics> getStatistics(long id){
+        return statisticsRepo.findAllByUserIdAndTimeRange(id);
     }
+
     public Optional<Device> getId(String deviceId){
         return deviceRepo.findById(deviceId);
     }
+
     public void addMessage(ContactForm message){
         formRepo.save(message);
     }

@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.backend.main.config.SMSConfig;
+import com.backend.main.models.Device;
 import com.backend.main.models.ResponseModel;
 import com.backend.main.models.User;
+import com.backend.main.repository.DeviceRepo;
+import com.backend.main.repository.StatisticRepo;
 import com.backend.main.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +28,9 @@ public class JwtUserDetailsService implements UserDetailsService {
     private UserRepo userRepo;
 
     @Autowired
+    private DeviceRepo deviceRepo;
+
+    @Autowired
     private PasswordEncoder bcryptEncoder;
 
     @Override
@@ -38,6 +44,13 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     public ResponseEntity<?> save(User user) {
+
+        Device device = deviceRepo.findById(user.getDevice().getDeviceId()).get();
+
+        if(device.getUser()!=null || device==null){
+            return new ResponseEntity(new ResponseModel("Device not available", HttpStatus.PRECONDITION_FAILED), HttpStatus.PRECONDITION_FAILED );
+        }
+
         if(userRepo.findByUsername(user.getUsername())!=null){
             return new ResponseEntity(new ResponseModel("User already Exist", HttpStatus.PRECONDITION_FAILED), HttpStatus.PRECONDITION_FAILED );
         }
@@ -56,7 +69,8 @@ public class JwtUserDetailsService implements UserDetailsService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        device.setUser(user);
+        deviceRepo.save(device);
         return ResponseEntity.ok(userRepo.save(user));
     }
 
