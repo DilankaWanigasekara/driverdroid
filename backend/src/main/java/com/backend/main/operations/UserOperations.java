@@ -8,11 +8,14 @@ import com.backend.main.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.Charset;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class UserOperations {
@@ -64,7 +67,5 @@ public class UserOperations {
         }
     }
 
-    public void resetPassword(User userName){
-        System.out.println(userName);;
-    }
+
 }

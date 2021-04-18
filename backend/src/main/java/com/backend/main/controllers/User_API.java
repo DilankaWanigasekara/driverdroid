@@ -48,10 +48,6 @@ public class User_API {
         Principal principal = request.getUserPrincipal();
         return ResponseEntity.ok(userFactory.getUser(principal.getName()));
     }
-    @PostMapping("/api/reset-password")
-    public void reset (@RequestBody User userName){
-        userFactory.reset(userName);
-    }
 
     @PostMapping("/api/assign-device")
     public ResponseEntity<?> assignDevice(@RequestParam("userId") long userId,

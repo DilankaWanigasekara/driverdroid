@@ -31,7 +31,6 @@ public class UserFactory {
     public void addMessage(ContactForm contactForm){
         userOperations.addMessage(contactForm);
     }
-    public void reset(User userName ){ userOperations.resetPassword(userName);}
     public ResponseEntity<?> assignDevice(long user, String device){
         return userOperations.assignDeviceToUser(user, device);
     }

@@ -11,5 +11,5 @@ public interface UserRepo extends CrudRepository<User, Long> {
 
     User findByContact(String contact);
 
-
+    boolean existsByUsername(String username);
 }

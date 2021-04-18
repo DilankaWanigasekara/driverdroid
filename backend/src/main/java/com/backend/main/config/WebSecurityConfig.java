@@ -58,6 +58,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/api/assign-device",
                 "/verify",
                 "/api/device-id",
+                "/forget-password",
+                "/reset-password",
                 "/").permitAll().
                 // all other requests need to be authenticated
                         anyRequest().authenticated().and().
