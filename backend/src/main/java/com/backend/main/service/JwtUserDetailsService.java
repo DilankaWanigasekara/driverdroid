@@ -70,6 +70,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         }
 
         return ResponseEntity.ok(userRepo.save(user));
+
     }
 
     public ResponseEntity<?> verify(String otp, String username){
