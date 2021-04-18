@@ -20,7 +20,7 @@ public class UserFactory {
     public User getUser(String username){
         return userOperations.getUser(username);
     }
-    public List<Statistics> getStat(String id){
+    public List<Statistics> getStat(long id){
         return userOperations.getStatistics(id);
     }
     public Optional<Device> getDeviceId(String id){

@@ -21,7 +21,7 @@ public class User_API {
     private UserFactory userFactory;
 
     @GetMapping(value = "/")
-    public ResponseEntity<?> test(){
+    public ResponseEntity<?> test01(){
         return ResponseEntity.ok(new ResponseModel("Backend Works!!!", HttpStatus.ACCEPTED));
     }
 
@@ -31,7 +31,7 @@ public class User_API {
     }
 
     @GetMapping(value="/api/get-statistics")
-    public ResponseEntity<?> userStatistics(@RequestParam("id") String id){
+    public ResponseEntity<?> userStatistics(@RequestParam("id") long id){
         return ResponseEntity.ok(userFactory.getStat(id));
     }
     @GetMapping(value="/api/device-id")
