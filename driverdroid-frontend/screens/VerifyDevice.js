@@ -9,17 +9,15 @@ import {
   Image,
 } from 'react-native';
 
-const Verify = ({ navigation }) => {
+const Verify = ({ route, navigation }) => {
   const [deviceID, setDeviceID] = useState('');
   const deviceIDInput = React.useRef();
   const [errors, setErrors] = useState({});
 
   const handleVerifyDevice = (event) => {
     event.preventDefault();
-
     if (validate()) {
-      deviceIDInput.current.clear();
-      navigation.navigate('Register Device');
+      verifyDevice(deviceID);
     }
   }
 
@@ -41,6 +39,34 @@ const Verify = ({ navigation }) => {
 
     setErrors(errors);
     return isValid;
+  }
+
+  function verifyDevice(deviceID) {
+    const url = `http://142.93.254.255:8080/api/device-id?id=${deviceID}`;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((Jsonresponse) => {
+        if (Jsonresponse == null) {
+          alert("No such device id exist!");
+        } else if (Jsonresponse.user != null) {
+          alert("Provided device has already registered with another user!");
+        } else {
+          deviceIDInput.current.clear();
+          navigation.navigate('Register Device', { username: route.params });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        alert('An error occurred!')
+      });
   }
 
   return (
