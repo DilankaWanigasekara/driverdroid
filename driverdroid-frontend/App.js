@@ -2,18 +2,16 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
+import StackNavigator from './navigation/StackNavigator';
 
-const Stack = createStackNavigator();
 
 const fetchFonts = () => {
   return Font.loadAsync({
-  'OpenSans-Bold': require('./assets/fonts/OpenSans-Bold.ttf'),
-  'OpenSans-SemiBold': require('./assets/fonts/OpenSans-SemiBold.ttf'),
+    'OpenSans-Bold': require('./assets/fonts/OpenSans-Bold.ttf'),
+    'OpenSans-SemiBold': require('./assets/fonts/OpenSans-SemiBold.ttf'),
+    'OpenSans-Regular': require('./assets/fonts/OpenSans-Regular.ttf'),
   });
 };
 
@@ -32,17 +30,8 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name = 'SignIn'
-          component = {SignIn}
-        />
-        <Stack.Screen 
-          name = 'SignUp' 
-          component = {SignUp}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+      <StackNavigator />
+    </NavigationContainer> 
   );
 };
 
