@@ -1,6 +1,7 @@
 package com.backend.main.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -135,7 +136,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", contact='" + contact + '\'' +
@@ -143,7 +144,8 @@ public class User {
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", valid=" + valid +
-                ", OTP='" + otp + '\'' +
+                ", otp='" + otp + '\'' +
+                ", device=" + device +
                 '}';
     }
 }

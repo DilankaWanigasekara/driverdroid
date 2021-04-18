@@ -1,5 +1,7 @@
 package com.backend.main.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,7 +16,9 @@ public class Device {
 
     @Column
     private ZonedDateTime deviceDateTime;
+
     @OneToOne
+    @JsonIgnore
     private User user;
 
     public String getDeviceId(){
@@ -38,5 +42,14 @@ public class Device {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Device{" +
+                "deviceId='" + deviceId + '\'' +
+                ", deviceDateTime=" + deviceDateTime +
+                ", user=" + user +
+                '}';
     }
 }

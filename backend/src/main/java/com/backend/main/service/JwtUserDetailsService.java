@@ -1,6 +1,7 @@
 package com.backend.main.service;
 
 import java.io.IOException;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 
 import com.backend.main.config.SMSConfig;
@@ -45,12 +46,6 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     public ResponseEntity<?> save(User user) {
 
-        Device device = deviceRepo.findById(user.getDevice().getDeviceId()).get();
-
-        if(device.getUser()!=null || device==null){
-            return new ResponseEntity(new ResponseModel("Device not available", HttpStatus.PRECONDITION_FAILED), HttpStatus.PRECONDITION_FAILED );
-        }
-
         if(userRepo.findByUsername(user.getUsername())!=null){
             return new ResponseEntity(new ResponseModel("User already Exist", HttpStatus.PRECONDITION_FAILED), HttpStatus.PRECONDITION_FAILED );
         }
@@ -69,8 +64,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        device.setUser(user);
-        deviceRepo.save(device);
+
         return ResponseEntity.ok(userRepo.save(user));
     }
 

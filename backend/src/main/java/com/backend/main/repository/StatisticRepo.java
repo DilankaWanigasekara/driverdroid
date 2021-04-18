@@ -12,7 +12,7 @@ public interface StatisticRepo extends CrudRepository<Statistics, String> {
     List<Statistics> findAllByUserId(String id);
 
     @Query(value = "select * " +
-            "FROM  statistic " +
+            "FROM  statistics " +
             "where user_id= :id AND date_time > current_date - interval 7 day", nativeQuery = true)
     List<Statistics> findAllByUserIdAndTimeRange(@Param("id") long id);
 }
