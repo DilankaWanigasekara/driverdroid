@@ -50,7 +50,7 @@ const Register = ({ route, navigation }) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: route.params.username.username,
+        username: route.params.username,
         otp: verifyCode
       })
     })
@@ -63,7 +63,35 @@ const Register = ({ route, navigation }) => {
         if (status != 200) {
           alert(Jsonresponse.message);
         } else {
+          assignDevice();
           verifyCodeInput.current.clear();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        alert('An error occurred!')
+      });
+  }
+
+  function assignDevice() {
+    const url = `http://18.221.60.193/api/assign-device?userId=${route.params.id}&deviceId=${route.params.deviceID}`;
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    })
+      .then((response) => {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
+      })
+      .then(([status, Jsonresponse]) => {
+        if (status != 200) {
+          alert('Error occurred!')
+          console.log(Jsonresponse.message);
+        } else {
           navigation.navigate('Sign In');
         }
       })
