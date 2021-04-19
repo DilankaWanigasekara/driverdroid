@@ -7,6 +7,7 @@ import ResetPassword from '../screens/ResetPassword';
 import Verify from '../screens/VerifyDevice';
 import Register from '../screens/RegisterDevice';
 import DrawerNavigator from './DrawerNavigator';
+import DriverHistoryStats from '../screens/DriverHistoryStats';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +29,7 @@ const StackNavigator = () => {
             <Stack.Screen name='Reset Password' component={ResetPassword} />
             <Stack.Screen name='Verify Device' component={Verify} />
             <Stack.Screen name='Register Device' component={Register} />
+            <Stack.Screen name='Driver History Statistics' component={DriverHistoryStats} options={{ headerShown: true, title: 'Driver History Statistics' }} />
             <Stack.Screen name='Home' component={DrawerNavigator} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
