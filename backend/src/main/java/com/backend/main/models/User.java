@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -39,6 +40,12 @@ public class User {
 
     @OneToOne
     private Device device;
+
+    @Column
+    private String tempPassword;
+
+    @Column
+    private ZonedDateTime tempPasswordExpiryDate;
 
     public long getId() {
         return id;
@@ -131,6 +138,22 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, username, password, contact, firstname, lastname);
+    }
+
+    public String getTempPassword() {
+        return tempPassword;
+    }
+
+    public void setTempPassword(String tempPassword) {
+        this.tempPassword = tempPassword;
+    }
+
+    public ZonedDateTime getTempPasswordExpiryDate() {
+        return tempPasswordExpiryDate;
+    }
+
+    public void setTempPasswordExpiryDate(ZonedDateTime tempPasswordExpiryDate) {
+        this.tempPasswordExpiryDate = tempPasswordExpiryDate;
     }
 
     @Override
