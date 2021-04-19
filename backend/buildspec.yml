@@ -6,10 +6,10 @@ phases:
       java: corretto8
   pre_build:
     commands:
-	    - cd backend
+      - cd backend
   build:
     commands:
-	    - mvn clean install
+      - mvn clean install
   post_build:
     commands:
       - echo Build Completed
