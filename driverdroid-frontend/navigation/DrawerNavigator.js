@@ -4,7 +4,6 @@ import ContactUs from '../screens/ContactUs';
 import DriverHistory from '../screens/DriverHistory';
 import About from '../screens/About';
 import Home from '../screens/Home';
-import DriverHistoryStats from '../screens/DriverHistoryStats';
 import { Icon } from 'react-native-elements';
 import RestPlaces from '../screens/RestPlaces';
 import LogOut from '../screens/LogOut';
@@ -61,19 +60,6 @@ const DrawerNavigator = () => {
           drawerIcon: () => (
             <Icon
               name='history'
-              type='font-awesome'
-              color='black'
-              size={20}
-            />),
-        }}
-      />
-      <Drawer.Screen name='Driver History Statistics' component={DriverHistoryStats}
-        options={{
-          headerShown: true,
-          title: 'Driver History Statistics',
-          drawerIcon: () => (
-            <Icon
-              name='bar-chart'
               type='font-awesome'
               color='black'
               size={20}
