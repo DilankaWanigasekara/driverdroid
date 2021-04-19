@@ -48,7 +48,7 @@ const SignIn = ({ navigation }) => {
   }
 
   function getUserData() {
-    const url = 'http://142.93.254.255:8080/me';
+    const url = 'http://18.221.60.193/me';
     fetch(url, {
       method: 'GET',
       headers: {
@@ -64,10 +64,7 @@ const SignIn = ({ navigation }) => {
       })
       .then(([status, Jsonresponse]) => {
         if (status != 200) {
-          getData();
-          if (userData != null) {
-            signInUser(userData.username, userData.password);
-          }
+          alert('We need to verify it\'s you! Please sign in again to confirm it\'s you');
         } else {
           storeData(Jsonresponse);
           navigation.navigate('Home');
@@ -77,16 +74,6 @@ const SignIn = ({ navigation }) => {
         console.log(error);
         alert('An error occurred!')
       });
-  }
-
-  const getData = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem(DATA_STORAGE_KEY);
-      let data = (jsonValue != null ? JSON.parse(jsonValue) : null);
-      setUserData(data);
-    } catch (error) {
-      console.log(error);
-    }
   }
 
   const storeData = async (value) => {
@@ -124,7 +111,7 @@ const SignIn = ({ navigation }) => {
   }
 
   function signInUser(username, password) {
-    const url = 'http://142.93.254.255:8080/login';
+    const url = 'http://18.221.60.193/login';
     fetch(url, {
       method: 'POST',
       headers: {
