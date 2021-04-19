@@ -10,7 +10,7 @@ import {
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ContactUs = () => {
+const ContactUs = ({ navigation }) => {
   const [name, setName] = useState('');
   const nameInput = React.useRef();
   const [email, setEmail] = useState('');
@@ -19,7 +19,6 @@ const ContactUs = () => {
   const messageInput = React.useRef();
   const [errors, setErrors] = useState({});
   const [userToken, setUserToken] = useState(null);
-  const [userData, setUserData] = useState(null);
   const TOKEN_STORAGE_KEY = '@user_token';
   const DATA_STORAGE_KEY = '@user_data';
 
@@ -54,7 +53,7 @@ const ContactUs = () => {
   }
 
   function getUserData() {
-    const url = 'http://142.93.254.255:8080/me';
+    const url = 'http://18.221.60.193/me';
     fetch(url, {
       method: 'GET',
       headers: {
@@ -70,10 +69,8 @@ const ContactUs = () => {
       })
       .then(([status, Jsonresponse]) => {
         if (status != 200) {
-          getData();
-          if (userData != null) {
-            signInUser(userData.username, userData.password);
-          }
+          alert('We need to verify it\'s you! You\'ll be redirected to the sign in page soon');
+          navigation.navigate('Sign In');
         } else {
           storeData(Jsonresponse);
         }
@@ -84,61 +81,10 @@ const ContactUs = () => {
       });
   }
 
-  const getData = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem(DATA_STORAGE_KEY);
-      let data = (jsonValue != null ? JSON.parse(jsonValue) : null);
-      setUserData(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   const storeData = async (value) => {
     try {
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem(DATA_STORAGE_KEY, jsonValue);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  function signInUser(username, password) {
-    const url = 'http://142.93.254.255:8080/login';
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      })
-    })
-      .then((response) => {
-        const statusCode = response.status;
-        const data = response.json();
-        return Promise.all([statusCode, data]);
-      })
-      .then(([status, Jsonresponse]) => {
-        if (status != 200) {
-          console.log('Error occurred while trying to login user');
-        } else {
-          storeToken(Jsonresponse);
-          setUserToken(Jsonresponse);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        alert('An error occurred!')
-      });
-  }
-
-  const storeToken = async (value) => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem(TOKEN_STORAGE_KEY, jsonValue);
     } catch (error) {
       console.log(error);
     }
@@ -184,7 +130,7 @@ const ContactUs = () => {
   }
 
   function contact(name, email, message) {
-    const url = 'http://142.93.254.255:8080/api/contact';
+    const url = 'http://18.221.60.193/api/contact';
     fetch(url, {
       method: 'POST',
       headers: {
