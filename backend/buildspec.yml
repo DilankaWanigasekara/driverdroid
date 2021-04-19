@@ -5,7 +5,7 @@ phases:
     runtime-versions:
       java: corretto8
     build:
-      - ./mvn clean install
+      - backend/mvn clean install
     post_build:
       commands:
         - echo Build Completed
