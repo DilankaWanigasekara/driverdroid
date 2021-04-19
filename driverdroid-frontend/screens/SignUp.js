@@ -118,7 +118,7 @@ const SignUp = ({ navigation }) => {
           passwordInput.current.clear();
           confirmPasswordInput.current.clear();
           setAgree(false);
-          navigation.navigate('Verify Device', { username: Jsonresponse.username });
+          navigation.navigate('Verify Device', { username: Jsonresponse.username, id: Jsonresponse.id });
         }
       })
       .catch((error) => {

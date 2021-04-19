@@ -60,7 +60,7 @@ const Verify = ({ route, navigation }) => {
           alert("Provided device has already registered with another user!");
         } else {
           deviceIDInput.current.clear();
-          navigation.navigate('Register Device', { username: route.params });
+          navigation.navigate('Register Device', { username: route.params.username, id: route.params.id, deviceID: deviceID });
         }
       })
       .catch((error) => {
