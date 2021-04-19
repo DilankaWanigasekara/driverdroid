@@ -92,7 +92,7 @@ const SignUp = ({ navigation }) => {
   }
 
   function signUpUser(username, password, telephoneNo) {
-    const url = 'http://142.93.254.255:8080/register';
+    const url = 'http://18.221.60.193/register';
     fetch(url, {
       method: 'POST',
       headers: {

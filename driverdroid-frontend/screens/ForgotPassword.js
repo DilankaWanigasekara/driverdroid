@@ -34,7 +34,7 @@ const ForgotPassword = ({ navigation }) => {
   }
 
   function getTempPassword(username) {
-    const url = 'http://142.93.254.255:8080/forget-password';
+    const url = 'http://18.221.60.193/forget-password';
     fetch(url, {
       method: 'POST',
       headers: {

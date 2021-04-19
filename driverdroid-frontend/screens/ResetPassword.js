@@ -69,7 +69,7 @@ const ResetPassword = ({ route, navigation }) => {
   }
 
   function resetPassword(temporaryPassword, newPassword) {
-    const url = 'http://142.93.254.255:8080/reset-password';
+    const url = 'http://18.221.60.193/reset-password';
     fetch(url, {
       method: 'POST',
       headers: {

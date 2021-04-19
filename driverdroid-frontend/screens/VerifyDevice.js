@@ -42,7 +42,7 @@ const Verify = ({ route, navigation }) => {
   }
 
   function verifyDevice(deviceID) {
-    const url = `http://142.93.254.255:8080/api/device-id?id=${deviceID}`;
+    const url = `http://18.221.60.193/api/device-id?id=${deviceID}`;
     fetch(url, {
       method: 'GET',
       headers: {

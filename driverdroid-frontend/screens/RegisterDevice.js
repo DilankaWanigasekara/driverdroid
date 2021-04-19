@@ -42,7 +42,7 @@ const Register = ({ route, navigation }) => {
   }
 
   function registerDevice(verifyCode) {
-    const url = 'http://142.93.254.255:8080/verify';
+    const url = 'http://18.221.60.193/verify';
     fetch(url, {
       method: 'POST',
       headers: {
