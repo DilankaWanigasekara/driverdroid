@@ -7,7 +7,7 @@ phases:
     build:
       commands:
         - cd backend
-        - mvn clean install
+        - ./mvn clean install
     post_build:
       commands:
         - echo Build Completed
