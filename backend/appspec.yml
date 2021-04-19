@@ -3,28 +3,28 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ec2-user2/server
+    destination: /home/ec2-user/server
 
 permissions:
   - object: /
     pattern: "**"
-    owner: ec2-user2
-    group: ec2-user2
+    owner: ec2-user
+    group: ec2-user
 
 hooks:
   BeforeInstall:
     - location: server_clear.sh
       timeout: 300
-      runas: ec2-user2
+      runas: ec2-user
   AfterInstall:
     - location: server_clear.sh
       timeout: 300
-      runas: ec2-user2
+      runas: ec2-user
   ApplicationStart:
     - location: server_start.sh
       timeout: 300
-      runas: ec2-user2
+      runas: ec2-user
   ApplicationStop:
     - location: server_stop.sh
       timeout: 300
-      runas: ec2-user2
+      runas: ec2-user
