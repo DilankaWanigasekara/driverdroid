@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
 import ForgotPassword from '../screens/ForgotPassword';
+import ResetPassword from '../screens/ResetPassword';
 import Verify from '../screens/VerifyDevice';
 import Register from '../screens/RegisterDevice';
 import DrawerNavigator from './DrawerNavigator';
@@ -24,6 +25,7 @@ const StackNavigator = () => {
             <Stack.Screen name='Sign In' component={SignIn} />
             <Stack.Screen name='Sign Up' component={SignUp} />
             <Stack.Screen name='Forgot Password' component={ForgotPassword} />
+            <Stack.Screen name='Reset Password' component={ResetPassword} />
             <Stack.Screen name='Verify Device' component={Verify} />
             <Stack.Screen name='Register Device' component={Register} />
             <Stack.Screen name='Home' component={DrawerNavigator} options={{ headerShown: false }} />
