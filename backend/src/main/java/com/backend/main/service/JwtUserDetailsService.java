@@ -15,9 +15,14 @@ import com.backend.main.models.User;
 import com.backend.main.repository.DeviceRepo;
 import com.backend.main.repository.StatisticRepo;
 import com.backend.main.repository.UserRepo;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -37,6 +42,9 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Autowired
     private PasswordEncoder bcryptEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -88,34 +96,42 @@ public class JwtUserDetailsService implements UserDetailsService {
     }
 
     public ResponseEntity<?> forget(String userName){
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-//        String generatedPwd = new String(array, Charset.forName("UTF-8"));
         String code = RandomNumGeneratorService.generateID(6);
         String generatedPwd = "TEMPO" + code;
 
         if (userRepo.existsByUsername(userName)){
             User user = userRepo.findByUsername(userName);
-            user.setPassword(bcryptEncoder.encode(generatedPwd));
+            user.setTempPassword(generatedPwd);
+            ZonedDateTime date = ZonedDateTime.now();
+            // temp password is valid for 1 hour
+            user.setTempPasswordExpiryDate(date.plusHours(1));
             userRepo.save(user);
             try {
                 SMSConfig smsConfig = new SMSConfig(user.getContact(), generatedPwd);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return new ResponseEntity(new ResponseModel("Temporary password send", HttpStatus.OK), HttpStatus.OK);
+            return new ResponseEntity(new ResponseModel("Temporary password send: validity 1 hour", HttpStatus.OK), HttpStatus.OK);
         }
         return new ResponseEntity(new ResponseModel("Invalid username", HttpStatus.PRECONDITION_FAILED), HttpStatus.PRECONDITION_FAILED);
     }
 
+    @SneakyThrows
     public ResponseEntity<?> resetpassword(ResetPasswordModel model){
         User user = userRepo.findByUsername(model.getUsername());
-        String temp = bcryptEncoder.encode(model.getTemp_pwd());
-        if (user.getPassword().equals(temp)){
-            user.setPassword(bcryptEncoder.encode(model.getPwd()));
-            return ResponseEntity.ok(userRepo.save(user));
+
+
+        if (user.getTempPasswordExpiryDate().isAfter(ZonedDateTime.now())){
+            if (user.getTempPassword().equals(model.getTemp_pwd())){
+                user.setPassword(bcryptEncoder.encode(model.getPwd()));
+                user.setTempPasswordExpiryDate(null);
+                user.setTempPassword(null);
+                return ResponseEntity.ok(userRepo.save(user));
+            }else{
+                return new ResponseEntity(new ResponseModel("Temporary Password Invalid", HttpStatus.PRECONDITION_FAILED), HttpStatus.PRECONDITION_FAILED);
+            }
         }else {
-            return new ResponseEntity(new ResponseModel("Invalid temperory password", HttpStatus.PRECONDITION_FAILED), HttpStatus.PRECONDITION_FAILED);
+            return new ResponseEntity(new ResponseModel("Temporary Password Expired", HttpStatus.PRECONDITION_FAILED), HttpStatus.PRECONDITION_FAILED);
         }
     }
 }
