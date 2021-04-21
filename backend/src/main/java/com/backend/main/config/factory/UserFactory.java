@@ -25,7 +25,7 @@ public class UserFactory {
     public List<Statistics> getStat(long id){
         return userOperations.getStatistics(id);
     }
-    public Optional<Device> getDeviceId(String id){
+    public ResponseEntity<?> getDeviceId(String id){
         return userOperations.getId(id);
     }
     public void addMessage(ContactForm contactForm){
