@@ -37,8 +37,13 @@ public class UserOperations {
         return statisticsRepo.findAllByUserIdAndTimeRange(id);
     }
 
-    public Optional<Device> getId(String deviceId){
-        return deviceRepo.findById(deviceId);
+    public ResponseEntity<?> getId(String deviceId){
+        if (deviceRepo.existsById(device)){
+            Device dev = deviceRepo.findById(device).get();
+            return ResponseEntity.ok(dev);
+        }else {
+            return new ResponseEntity(new ResponseModel("Invalid Device Id", HttpStatus.PRECONDITION_FAILED), HttpStatus.PRECONDITION_FAILED);
+        }
     }
 
     public void addMessage(ContactForm message){
