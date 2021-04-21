@@ -51,12 +51,14 @@ const Verify = ({ route, navigation }) => {
       }
     })
       .then((response) => {
-        return response.json();
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]);
       })
-      .then((Jsonresponse) => {
-        if (Jsonresponse == null) {
-          alert("No such device id exist!");
-        } else if (Jsonresponse.user != null) {
+      .then(([status, Jsonresponse]) => {
+        if (status != 200) {
+          alert(Jsonresponse.message);
+        } else if (Jsonresponse.deviceDateTime != null) {
           alert("Provided device has already registered with another user!");
         } else {
           deviceIDInput.current.clear();
