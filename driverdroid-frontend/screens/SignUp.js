@@ -22,6 +22,7 @@ const SignUp = ({ navigation }) => {
   const [agree, setAgree] = useState(false);
   const [errors, setErrors] = useState({});
 
+  //handle sign up process
   const handleSignUp = (event) => {
     event.preventDefault();
     if (validate()) {
@@ -29,6 +30,7 @@ const SignUp = ({ navigation }) => {
     }
   }
 
+  //validate user inputs
   const validate = () => {
     let isValid = true;
     let errors = {};
@@ -91,6 +93,7 @@ const SignUp = ({ navigation }) => {
     return isValid;
   }
 
+  //sign up user to the app
   function signUpUser(username, password, telephoneNo) {
     const url = 'http://18.221.60.193/register';
     fetch(url, {

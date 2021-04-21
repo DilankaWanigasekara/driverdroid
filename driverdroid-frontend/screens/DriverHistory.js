@@ -55,6 +55,7 @@ const DriverHistory = ({ navigation }) => {
     }, [userData])
   );
 
+  //get user token from the async storage
   const getToken = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem(TOKEN_STORAGE_KEY);
@@ -65,6 +66,7 @@ const DriverHistory = ({ navigation }) => {
     }
   }
 
+  //call backend API to get current user details
   function getUserData() {
     const url = 'http://18.221.60.193/me';
     fetch(url, {
@@ -81,7 +83,7 @@ const DriverHistory = ({ navigation }) => {
         return Promise.all([statusCode, data]);
       })
       .then(([status, Jsonresponse]) => {
-        if (status != 200) {
+        if (status != 200) { //navigate user to the sign in page if user token has expires
           alert('We need to verify it\'s you! You\'ll be redirected to the sign in page soon');
           navigation.navigate('Sign In');
         } else {
@@ -95,6 +97,7 @@ const DriverHistory = ({ navigation }) => {
       });
   }
 
+  //store retrieved user data to the async storage
   const storeData = async (value) => {
     try {
       const jsonValue = JSON.stringify(value);
@@ -104,6 +107,7 @@ const DriverHistory = ({ navigation }) => {
     }
   }
 
+  //get drowsiness warnings history details of the user from the server
   function getHistoryData() {
     const url = `http://18.221.60.193/api/get-statistics?id=${userData.id}`;
     fetch(url, {
@@ -123,14 +127,14 @@ const DriverHistory = ({ navigation }) => {
         if (status != 200) {
           alert('Error occurred while trying to get history data. Please try again later');
         } else if (Jsonresponse.length != 0) {
-          const sortedResponse = Jsonresponse.sort(function (a, b) {
+          const sortedResponse = Jsonresponse.sort(function (a, b) { //sort history data according to the warned date
             return new Date(b.dateTime) - new Date(a.dateTime);
           });
           setHistoryData(sortedResponse);
-          let lastTrip = sortedResponse[0];
-          let lastTripDate = lastTrip.dateTime.substring(0, 10);
-          let lastTripTime = lastTrip.dateTime.substring(11, 19);
-          let lastTripLocation = lastTrip.location;
+          let lastTrip = sortedResponse[0]; //get latest drowsiness warning details of the user
+          let lastTripDate = lastTrip.dateTime.substring(0, 10); //extract last warning date
+          let lastTripTime = lastTrip.dateTime.substring(11, 19); //extract last warning time
+          let lastTripLocation = lastTrip.location; //extract last warning location
           setLastTripDate(lastTripDate);
           setLastTripTime(lastTripTime);
           setLastTripLocation(lastTripLocation);
@@ -178,7 +182,7 @@ const DriverHistory = ({ navigation }) => {
         </View>
 
         <TouchableOpacity style={styles.findMore}>
-          <Text style={styles.findMoreText}
+          <Text style={styles.findMoreText} 
             onPress={() => { (historyData.length != 0) ? navigation.navigate('Driver History Statistics', { historyData: historyData }) : alert('No drowsiness warnings has given to you during last month. Thererfore no data to show!') }}>Find Out More</Text>
         </TouchableOpacity>
       </View>

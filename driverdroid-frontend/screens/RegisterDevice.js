@@ -14,6 +14,7 @@ const Register = ({ route, navigation }) => {
   const verifyCodeInput = React.useRef();
   const [errors, setErrors] = useState({});
 
+  //handle register device process
   const handleRegisterDevice = (event) => {
     event.preventDefault();
     if (validate()) {
@@ -21,6 +22,7 @@ const Register = ({ route, navigation }) => {
     }
   }
 
+  //validate user inputs
   const validate = () => {
     let isValid = true;
     let errors = {};
@@ -41,6 +43,7 @@ const Register = ({ route, navigation }) => {
     return isValid;
   }
 
+  //check the validity of the provided verfication code with the username
   function registerDevice(verifyCode) {
     const url = 'http://18.221.60.193/verify';
     fetch(url, {
@@ -73,6 +76,7 @@ const Register = ({ route, navigation }) => {
       });
   }
 
+  //assgin the provided device to the user, if all data are valid
   function assignDevice() {
     const url = `http://18.221.60.193/api/assign-device?userId=${route.params.id}&deviceId=${route.params.deviceID}`;
     fetch(url, {

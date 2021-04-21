@@ -14,9 +14,9 @@ const DriverHistoryStats = ({ route }) => {
   useFocusEffect(
     React.useCallback(() => {
       (async () => {
-        const data = route.params.historyData;
+        const data = route.params.historyData; //get driver warnings history details passed with navigation routes
         let dataList = [];
-        for (var i = 0; i < data.length; i++) {
+        for (var i = 0; i < data.length; i++) { //extract relevant details from the retrieved history data
           let dataItem = {};
           dataItem['date'] = data[i].dateTime.substring(0, 10);
           dataItem['time'] = data[i].dateTime.substring(11, 19);
@@ -28,7 +28,7 @@ const DriverHistoryStats = ({ route }) => {
     }, [route])
   );
 
-  const FlatListHeader = () => {
+  const FlatListHeader = () => { //header component of the flat list
     return (
       <View>
         <Text style={styles.text}>Your drowsiness warnings history</Text>
@@ -43,7 +43,7 @@ const DriverHistoryStats = ({ route }) => {
       <View>
         {(historyDataList.length != 0) &&
           <FlatList
-            data={historyDataList}
+            data={historyDataList} //populate flat list with user warnings history data
             ListHeaderComponent={FlatListHeader}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (

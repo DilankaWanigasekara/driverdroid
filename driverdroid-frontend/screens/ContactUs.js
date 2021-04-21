@@ -42,6 +42,7 @@ const ContactUs = ({ navigation }) => {
     }, [userToken])
   );
 
+  //get saved token of the user from the async storage
   const getToken = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem(TOKEN_STORAGE_KEY);
@@ -52,6 +53,7 @@ const ContactUs = ({ navigation }) => {
     }
   }
 
+  //call backend API to get current user details
   function getUserData() {
     const url = 'http://18.221.60.193/me';
     fetch(url, {
@@ -68,7 +70,7 @@ const ContactUs = ({ navigation }) => {
         return Promise.all([statusCode, data]);
       })
       .then(([status, Jsonresponse]) => {
-        if (status != 200) {
+        if (status != 200) { //navigate user to the sign in page if token of the user has expires
           alert('We need to verify it\'s you! You\'ll be redirected to the sign in page soon');
           navigation.navigate('Sign In');
         } else {
@@ -81,6 +83,7 @@ const ContactUs = ({ navigation }) => {
       });
   }
 
+  //store returned user data to the async storage
   const storeData = async (value) => {
     try {
       const jsonValue = JSON.stringify(value);
@@ -90,6 +93,7 @@ const ContactUs = ({ navigation }) => {
     }
   }
 
+  //handle sending feedback to the server
   const handleContactUs = (event) => {
     event.preventDefault();
     if (validate()) {
@@ -101,6 +105,7 @@ const ContactUs = ({ navigation }) => {
     }
   }
 
+  //validate the user inputs
   const validate = () => {
     let isValid = true;
     let errors = {};
@@ -129,6 +134,7 @@ const ContactUs = ({ navigation }) => {
     return isValid;
   }
 
+  //send user feedback details to the server
   function contact(name, email, message) {
     const url = 'http://18.221.60.193/api/contact';
     fetch(url, {

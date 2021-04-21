@@ -13,6 +13,7 @@ const ForgotPassword = ({ navigation }) => {
   const usernameInput = React.useRef();
   const [errors, setErrors] = useState({});
 
+  //handle forgot password process
   const handleForgotPassword = (event) => {
     event.preventDefault();
     if (validate()) {
@@ -20,6 +21,7 @@ const ForgotPassword = ({ navigation }) => {
     }
   }
 
+  //validate user inputs
   const validate = () => {
     let isValid = true;
     let errors = {};
@@ -33,6 +35,7 @@ const ForgotPassword = ({ navigation }) => {
     return isValid;
   }
 
+  //send a temporary password to the user's registered phone number
   function getTempPassword(username) {
     const url = 'http://18.221.60.193/forget-password';
     fetch(url, {

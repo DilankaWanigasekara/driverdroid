@@ -17,6 +17,7 @@ const ResetPassword = ({ route, navigation }) => {
   const confirmPasswordInput = React.useRef();
   const [errors, setErrors] = useState({});
 
+  //handle reset password process
   const handleResetPassword = (event) => {
     event.preventDefault();
     if (validate()) {
@@ -24,6 +25,7 @@ const ResetPassword = ({ route, navigation }) => {
     }
   }
 
+  //validate user inputs
   const validate = () => {
     let isValid = true;
     let errors = {};
@@ -68,6 +70,7 @@ const ResetPassword = ({ route, navigation }) => {
     return isValid;
   }
 
+  //reset password of the user
   function resetPassword(temporaryPassword, newPassword) {
     const url = 'http://18.221.60.193/reset-password';
     fetch(url, {

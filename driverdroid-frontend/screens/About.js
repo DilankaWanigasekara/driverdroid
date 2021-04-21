@@ -30,6 +30,7 @@ const About = () => {
         <View>
           <Text style={styles.findOutText}>Find out more about us on : </Text>
 
+          {/* navigate to social media sites*/}
           <View style={styles.socialMediaIconContainer}>
             <SocialIcon
               type='facebook'

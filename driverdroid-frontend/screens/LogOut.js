@@ -25,6 +25,7 @@ const LogOut = ({ navigation }) => {
         }, [clearedStorage])
     );
 
+    //provide user the option to log out from the app
     const logOut = async () => {
         try {
             Alert.alert(
@@ -47,6 +48,7 @@ const LogOut = ({ navigation }) => {
         }
     }
 
+    //clear data in the async storage
     const clearStorage = async () => {
         try {
             await AsyncStorage.clear();

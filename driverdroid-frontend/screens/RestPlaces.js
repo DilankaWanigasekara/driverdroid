@@ -15,7 +15,7 @@ const RestPlaces = ({ navigation }) => {
   useFocusEffect(
     React.useCallback(() => {
       (async () => {
-        let { status } = await Location.requestPermissionsAsync();
+        let { status } = await Location.requestPermissionsAsync(); //request location permission from the user
         if (status !== 'granted') {
           Alert.alert(
             'Permission to access location was denied',
@@ -35,11 +35,12 @@ const RestPlaces = ({ navigation }) => {
           return;
         }
 
-        let location = await Location.getCurrentPositionAsync({});
+        let location = await Location.getCurrentPositionAsync({}); //get current location of the user
         setLatitude(location.coords.latitude);
         setLongitude(location.coords.longitude);
         setRegion({ latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 });
 
+        //get nearby restaurants using google places API
         function getNearbyPlaces() {
           if (latitude != null && longitude != null) {
             const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude
@@ -62,6 +63,7 @@ const RestPlaces = ({ navigation }) => {
     }, [latitude, longitude])
   );
 
+  //get directions to the selected rest place with the help of 'google maps' app
   function getDirections(destinationLoc) {
     const url = `https://www.google.com/maps/dir/?api=1&travelmode=driving&dir_action=navigate&destination=${destinationLoc}`
     Linking.canOpenURL(url).then(supported => {

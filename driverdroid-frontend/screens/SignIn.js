@@ -37,6 +37,7 @@ const SignIn = ({ navigation }) => {
     })();
   }, [userToken]);
 
+  //get user token from the async storage
   const getToken = async () => {
     try {
       const jsonValue = await AsyncStorage.getItem(TOKEN_STORAGE_KEY);
@@ -47,6 +48,7 @@ const SignIn = ({ navigation }) => {
     }
   }
 
+  //get user data of the current user from the server
   function getUserData() {
     const url = 'http://18.221.60.193/me';
     fetch(url, {
@@ -63,7 +65,7 @@ const SignIn = ({ navigation }) => {
         return Promise.all([statusCode, data]);
       })
       .then(([status, Jsonresponse]) => {
-        if (status != 200) {
+        if (status != 200) { //navigate user to the sign in screen if the token has expires
           alert('We need to verify it\'s you! Please sign in again to confirm it\'s you');
         } else {
           storeData(Jsonresponse);
@@ -76,6 +78,7 @@ const SignIn = ({ navigation }) => {
       });
   }
 
+  //store retrieved user data to the async storage
   const storeData = async (value) => {
     try {
       const jsonValue = JSON.stringify(value);
@@ -85,6 +88,7 @@ const SignIn = ({ navigation }) => {
     }
   }
 
+  //handle sign in process
   const handleSignIn = (event) => {
     event.preventDefault();
     if (validate()) {
@@ -92,6 +96,7 @@ const SignIn = ({ navigation }) => {
     }
   }
 
+  //validate user inputs
   const validate = () => {
     let isValid = true;
     let errors = {};
@@ -110,6 +115,7 @@ const SignIn = ({ navigation }) => {
     return isValid;
   }
 
+  //sign in user to the app
   function signInUser(username, password) {
     const url = 'http://18.221.60.193/login';
     fetch(url, {
@@ -144,6 +150,7 @@ const SignIn = ({ navigation }) => {
       });
   }
 
+  //store user token to the async storage
   const storeToken = async (value) => {
     try {
       const jsonValue = JSON.stringify(value);

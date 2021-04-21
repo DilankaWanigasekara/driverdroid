@@ -14,6 +14,7 @@ const Verify = ({ route, navigation }) => {
   const deviceIDInput = React.useRef();
   const [errors, setErrors] = useState({});
 
+  //handle verify device process
   const handleVerifyDevice = (event) => {
     event.preventDefault();
     if (validate()) {
@@ -21,6 +22,7 @@ const Verify = ({ route, navigation }) => {
     }
   }
 
+  //validate user inputs
   const validate = () => {
     let isValid = true;
     let errors = {};
@@ -41,6 +43,7 @@ const Verify = ({ route, navigation }) => {
     return isValid;
   }
 
+  //verify device id
   function verifyDevice(deviceID) {
     const url = `http://18.221.60.193/api/device-id?id=${deviceID}`;
     fetch(url, {
