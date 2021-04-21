@@ -36,7 +36,7 @@ public class User_API {
     }
     @GetMapping(value="/api/device-id")
     public ResponseEntity<?> deviceId(@RequestParam("id") String deviceid){
-        return ResponseEntity.ok(userFactory.getDeviceId(deviceid));
+        return userFactory.getDeviceId(deviceid);
     }
     @PostMapping("/api/contact")
     public void  contact(@RequestBody ContactForm contactForm){
