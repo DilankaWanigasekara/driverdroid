@@ -37,7 +37,7 @@ public class UserOperations {
         return statisticsRepo.findAllByUserIdAndTimeRange(id);
     }
 
-    public ResponseEntity<?> getId(String deviceId){
+    public ResponseEntity<?> getId(String device){
         if (deviceRepo.existsById(device)){
             Device dev = deviceRepo.findById(device).get();
             return ResponseEntity.ok(dev);
