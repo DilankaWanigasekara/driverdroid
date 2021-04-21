@@ -8,6 +8,7 @@ import { Icon } from 'react-native-elements';
 import RestPlaces from '../screens/RestPlaces';
 import LogOut from '../screens/LogOut';
 
+//create drawer navigator for the drawer navigation of the app
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
@@ -27,6 +28,7 @@ const DrawerNavigator = () => {
         headerTitleAlign: 'center',
       }}
     >
+    {/* drawer screen details of the home screen */}
       <Drawer.Screen name='Home' component={Home}
         options={{
           headerShown: true,
@@ -40,6 +42,7 @@ const DrawerNavigator = () => {
             />),
         }}
       />
+      {/* drawer screen details of the rest places screen */}
       <Drawer.Screen name='Rest Places' component={RestPlaces}
         options={{
           headerShown: true,
@@ -53,6 +56,7 @@ const DrawerNavigator = () => {
             />),
         }}
       />
+      {/* drawer screen details of the driver history screen */}
       <Drawer.Screen name='Driver History' component={DriverHistory}
         options={{
           headerShown: true,
@@ -66,6 +70,7 @@ const DrawerNavigator = () => {
             />),
         }}
       />
+      {/* drawer screen details of the about screen */}
       <Drawer.Screen name='About' component={About}
         options={{
           headerShown: true,
@@ -79,6 +84,7 @@ const DrawerNavigator = () => {
             />),
         }}
       />
+      {/* drawer screen details of the contact us screen */}
       <Drawer.Screen name='Contact Us' component={ContactUs}
         options={{
           headerShown: true,
@@ -92,6 +98,7 @@ const DrawerNavigator = () => {
             />),
         }}
       />
+      {/* drawer screen details of the log out screen */}
       <Drawer.Screen name='Log Out' component={LogOut}
         options={{
           headerShown: true,

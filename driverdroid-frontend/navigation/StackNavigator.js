@@ -9,6 +9,7 @@ import Register from '../screens/RegisterDevice';
 import DrawerNavigator from './DrawerNavigator';
 import DriverHistoryStats from '../screens/DriverHistoryStats';
 
+//create stack navigator for the stack navigation of the app
 const Stack = createStackNavigator();
 
 const StackNavigator = () => {
