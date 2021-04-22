@@ -25,20 +25,20 @@ public class User_API {
         return ResponseEntity.ok(new ResponseModel("Backend Works!!!", HttpStatus.ACCEPTED));
     }
 
-    @GetMapping(value = "/api/test")
+    @GetMapping(value = "/api/test") //to testing
     public ResponseEntity<?> test(){
         return ResponseEntity.ok(new ResponseModel("Backend Works!!!", HttpStatus.ACCEPTED));
     }
 
-    @GetMapping(value="/api/get-statistics")
+    @GetMapping(value="/api/get-statistics") //to get statistics from database
     public ResponseEntity<?> userStatistics(@RequestParam("id") long id){
         return ResponseEntity.ok(userFactory.getStat(id));
     }
-    @GetMapping(value="/api/device-id")
+    @GetMapping(value="/api/device-id") //to check user entered device id mapping with database
     public ResponseEntity<?> deviceId(@RequestParam("id") String deviceid){
         return ResponseEntity.ok(userFactory.getDeviceId(deviceid));
     }
-    @PostMapping("/api/contact")
+    @PostMapping("/api/contact")//to get user feedback and save in database
     public void  contact(@RequestBody ContactForm contactForm){
         userFactory.addMessage(contactForm);
     }
@@ -49,7 +49,7 @@ public class User_API {
         return ResponseEntity.ok(userFactory.getUser(principal.getName()));
     }
 
-    @PostMapping("/api/assign-device")
+    @PostMapping("/api/assign-device") //to assign device id to the relavant user
     public ResponseEntity<?> assignDevice(@RequestParam("userId") long userId,
                              @RequestParam("deviceId") String deviceId){
         return userFactory.assignDevice(userId, deviceId);

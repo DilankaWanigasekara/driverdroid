@@ -24,14 +24,24 @@ public class Statistics {
 
     @ManyToOne
     @JsonIgnore
-    private User user;
+    private Device device;
 
-    public User getUser(){
-        return user;
+    public String getId() {
+        return id;
     }
-    public void setUser(User user){
-        this.user=user;
+
+    public void setId(String id) {
+        this.id = id;
     }
+
+    public Device getDevice() {
+        return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
+    }
+
     public ZonedDateTime getDateTime() {
         return dateTime;
     }

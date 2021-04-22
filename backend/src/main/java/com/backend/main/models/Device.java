@@ -12,7 +12,7 @@ public class Device {
 
 
     @Id
-    private String deviceId;
+    private String id;
 
     @Column
     private ZonedDateTime deviceDateTime;
@@ -21,11 +21,12 @@ public class Device {
     @JsonIgnore
     private User user;
 
-    public String getDeviceId(){
-        return deviceId;
+    public String getId() {
+        return id;
     }
-    public void setDeviceId(String id){
-        this.deviceId=deviceId;
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public ZonedDateTime getDeviceDateTime() {
@@ -47,7 +48,7 @@ public class Device {
     @Override
     public String toString() {
         return "Device{" +
-                "deviceId='" + deviceId + '\'' +
+                "deviceId='" + id + '\'' +
                 ", deviceDateTime=" + deviceDateTime +
                 ", user=" + user +
                 '}';
