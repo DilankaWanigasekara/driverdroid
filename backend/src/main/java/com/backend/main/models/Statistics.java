@@ -2,10 +2,7 @@ package com.backend.main.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.sql.Time;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,7 +11,8 @@ import java.util.UUID;
 @Entity
 public class Statistics {
     @Id
-    private String id = UUID.randomUUID().toString();
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @Column(nullable=false)
     private ZonedDateTime dateTime;
@@ -24,14 +22,24 @@ public class Statistics {
 
     @ManyToOne
     @JsonIgnore
-    private User user;
+    private Device device;
 
-    public User getUser(){
-        return user;
+    public long getId() {
+        return id;
     }
-    public void setUser(User user){
-        this.user=user;
+
+    public void setId(long id) {
+        this.id = id;
     }
+
+    public Device getDevice() {
+        return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
+    }
+
     public ZonedDateTime getDateTime() {
         return dateTime;
     }

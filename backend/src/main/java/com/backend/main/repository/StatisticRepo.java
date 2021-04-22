@@ -9,10 +9,8 @@ import java.util.List;
 
 public interface StatisticRepo extends CrudRepository<Statistics, String> {
 
-    List<Statistics> findAllByUserId(String id);
-
     @Query(value = "select * " +
             "FROM  statistics " +
-            "where user_id= :id AND date_time > current_date - interval 30 day", nativeQuery = true)
-    List<Statistics> findAllByUserIdAndTimeRange(@Param("id") long id);
+            "where device_id= :id AND date_time > current_date - interval 30 day", nativeQuery = true)
+    List<Statistics> findAllByDeviceIdAndTimeRange(@Param("id") String id);
 }

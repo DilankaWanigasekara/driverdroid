@@ -24,15 +24,6 @@ public class User {
     private String contact;
 
     @Column
-    private String avatar;
-
-    @Column
-    private String firstname;
-
-    @Column
-    private String lastname;
-
-    @Column
     private Boolean valid = false;
 
     @Column
@@ -79,21 +70,7 @@ public class User {
         this.contact = contact;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
 
     public Boolean getValid() {
         return valid;
@@ -103,13 +80,7 @@ public class User {
         this.valid = valid;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
 
     public String getOtp() {
         return otp;
@@ -132,12 +103,12 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(contact, user.contact) && Objects.equals(firstname, user.firstname) && Objects.equals(lastname, user.lastname);
+        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(contact, user.contact) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, contact, firstname, lastname);
+        return Objects.hash(id, username, password, contact);
     }
 
     public String getTempPassword() {
@@ -163,12 +134,11 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", contact='" + contact + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
                 ", valid=" + valid +
                 ", otp='" + otp + '\'' +
                 ", device=" + device +
+                ", tempPassword='" + tempPassword + '\'' +
+                ", tempPasswordExpiryDate=" + tempPasswordExpiryDate +
                 '}';
     }
 }

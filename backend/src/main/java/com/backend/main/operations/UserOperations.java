@@ -34,8 +34,10 @@ public class UserOperations {
     }
 
     public List<Statistics> getStatistics(long id){
-        return statisticsRepo.findAllByUserIdAndTimeRange(id);
+        Device device = deviceRepo.findByUserId(id).get();
+        return statisticsRepo.findAllByDeviceIdAndTimeRange(device.getId());
     }
+
 
     public ResponseEntity<?> getId(String device){
         if (deviceRepo.existsById(device)){
@@ -46,7 +48,7 @@ public class UserOperations {
         }
     }
 
-    public void addMessage(ContactForm message){
+    public void addMessage(ContactForm message){ //save user message in database
         formRepo.save(message);
     }
 
