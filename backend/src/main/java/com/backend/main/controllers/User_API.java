@@ -36,7 +36,7 @@ public class User_API {
     }
     @GetMapping(value="/api/device-id") //to check user entered device id mapping with database
     public ResponseEntity<?> deviceId(@RequestParam("id") String deviceid){
-        return ResponseEntity.ok(userFactory.getDeviceId(deviceid));
+        return userFactory.getDeviceId(deviceid);
     }
     @PostMapping("/api/contact")//to get user feedback and save in database
     public void  contact(@RequestBody ContactForm contactForm){
