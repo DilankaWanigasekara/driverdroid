@@ -270,6 +270,7 @@ def mouth():
             predict1()
 
 
+# voice generation
 def voice():
     global voiceFlag
     global eyeflag
@@ -319,6 +320,7 @@ while True:
 
             face = frame[y1 - 80:y1 + h1 + 20, x1 - 20:x1 + w1 + 20]
 
+            # detect eyes and draw contours
             if (face.size > 0):
                 cv2.imshow("face", face)
             leftEye = shape[lStart:lEnd]
@@ -354,6 +356,7 @@ while True:
             else:
                 ALARM_ON = False
             #####################################################################
+            # code for mouth detection
             mouth = shape[48:68]
             mouthHull = cv2.convexHull(mouth)
             x = (mouthHull[0][0][0])
