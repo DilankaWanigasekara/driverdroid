@@ -20,34 +20,32 @@ from keras.utils.np_utils import to_categorical
 import matplotlib.pyplot as plt
 import math
 import cv2
-#import pyttsx3
 import os
 import gtts
 from playsound import playsound
-#engine = pyttsx3.init()
 from PIL import Image
+
 Image.LOAD_TRUNCATED_IMAGES = True
-predict_flag= False
+predict_flag = False
 import httplib2
 import urllib3
 import time
 import requests
 from pygame import mixer
-from gtts import gTTS    
+from gtts import gTTS
 
 count = 0
-eyeflag=0
-yawnflag=0
-headflag=0
+eyeflag = 0
+yawnflag = 0
+headflag = 0
 
-import threading
 ##################################################
 
-hSize=200
-wSize=200
+hSize = 200
+wSize = 200
 
 # dimensions of our images.
-img_width, img_height = hSize,wSize
+img_width, img_height = hSize, wSize
 
 top_model_weights_path = 'bottleneck_fc_model.h5'
 top_model_weights_path1 = 'bottleneck_fc_model1.h5'
@@ -66,13 +64,15 @@ epochs = 50
 batch_size = 16
 
 lock = threading.Lock()
-voiceFlag=False
+voiceFlag = False
 
-def save_bottlebeck_features():
+
+def save_bottlebeck_features():  # for the Yawning Part
     # build the VGG16 network
-    model = applications.VGG16(include_top=False, weights='vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5')
+    model = applications.VGG16(include_top=False,
+                               weights='vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5')  # VGG-16 is a pre-trained model used for image classification.
     datagen = ImageDataGenerator(rescale=1. / 255)
-    generator = datagen.flow_from_directory(
+    generator = datagen.flow_from_directory(  # Taking and resizing the Dataset as Needed
         train_data_dir,
         target_size=(img_width, img_height),
         batch_size=batch_size,
@@ -111,10 +111,12 @@ def save_bottlebeck_features():
             bottleneck_features_validation)
 
 
-def save_bottlebeck_features1():
+def save_bottlebeck_features1():  # For the Alert and Drowsy Part
     # build the VGG16 network
     model = applications.VGG16(include_top=False, weights='vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5')
-    datagen1 = ImageDataGenerator(rescale=1. / 255)
+    datagen1 = ImageDataGenerator(
+        rescale=1. / 255)  # original images consist in RGB coefficients in the 0-255, but such values would be too
+    # high for our model to process therefore we target values between 0 and 1 instead by scaling with a 1/255.
     generator1 = datagen1.flow_from_directory(
         train_data_dir1,
         target_size=(img_width, img_height),
@@ -155,7 +157,11 @@ def save_bottlebeck_features1():
 
 
 def train_top_model():
-    datagen_top = ImageDataGenerator(rescale=1. / 255)
+    datagen_top = ImageDataGenerator(
+        rescale=1. / 255)  # ImageDataGenerator class is used to expand the training dataset in order to improve the
+    # performance and ability of the model to generalize and original images consist in RGB coefficients in the
+    # 0-255, but such values would be too high for our model to process therefore we target values between 0 and 1
+    # instead by scaling with a 1/255.
     generator_top = datagen_top.flow_from_directory(
         train_data_dir,
         target_size=(img_width, img_height),
@@ -172,10 +178,9 @@ def train_top_model():
     # load the bottleneck features saved earlier
     train_data = np.load('bottleneck_features_train.npy')
 
-    # get the class lebels for the training data, in the original order
+    # get the class labels for the training data, in the original order
     train_labels = generator_top.classes
 
-    # https://github.com/fchollet/keras/issues/3467
     # convert the training labels to categorical vectors
     train_labels = to_categorical(train_labels, num_classes=num_classes)
 
@@ -194,7 +199,7 @@ def train_top_model():
     validation_labels = to_categorical(
         validation_labels, num_classes=num_classes)
 
-    model = Sequential()
+    model = Sequential()  # Using the Sequential Model
     model.add(Flatten(input_shape=train_data.shape[1:]))
     model.add(Dense(256, activation='relu'))
     model.add(Dropout(0.5))
@@ -203,11 +208,11 @@ def train_top_model():
     model.compile(optimizer='rmsprop',
                   loss='categorical_crossentropy', metrics=['accuracy'])
 
-    history = model.fit(train_data, train_labels,
+    history = model.fit(train_data, train_labels,  # model.fit is used to train the Data
                         epochs=epochs,
                         batch_size=batch_size,
                         validation_data=(validation_data, validation_labels))
-    #print(history)
+    # print(history)
 
     model.save_weights(top_model_weights_path)
     model.save(top_model_weights_path)
@@ -218,7 +223,6 @@ def train_top_model():
     print("[INFO] accuracy: {:.2f}%".format(eval_accuracy * 100))
     print("[INFO] Loss: {}".format(eval_loss))
 
-    
 
 def train_top_model1():
     datagen_top1 = ImageDataGenerator(rescale=1. / 255)
@@ -241,7 +245,7 @@ def train_top_model1():
     # get the class lebels for the training data, in the original order
     train_labels1 = generator_top1.classes
 
-    # https://github.com/fchollet/keras/issues/3467
+   
     # convert the training labels to categorical vectors
     train_labels1 = to_categorical(train_labels1, num_classes=num_classes1)
 
@@ -273,7 +277,7 @@ def train_top_model1():
                         epochs=epochs,
                         batch_size=batch_size,
                         validation_data=(validation_data1, validation_labels1))
-    #print(history)
+    # print(history)
     model.save_weights(top_model_weights_path1)
     model.save(top_model_weights_path1)
 
@@ -283,13 +287,10 @@ def train_top_model1():
     print("[INFO] accuracy: {:.2f}%".format(eval_accuracy1 * 100))
     print("[INFO] Loss: {}".format(eval_loss1))
 
-    
-
-
 
 ######################################################
-#save_bottlebeck_features()
-#train_top_model()
+# save_bottlebeck_features()
+# train_top_model()
 ###################################################
 ######################################################
 save_bottlebeck_features1()
